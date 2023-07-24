@@ -1,8 +1,10 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { styled } from "goober";
 import { minMobile } from "../../globalStyle.jsx";
-import Layout from "../components/Layout.jsx";
 import PlusIcon from "../assets/images/PlusIcon.jsx";
+import Layout from "../components/Layout.jsx";
+import InvoiceListItem from "../components/InvoiceListItem.jsx";
 
 function Home() {
   return (
@@ -17,7 +19,24 @@ function Home() {
         </Options>
       </TitleHeader>
       <Invoices>
-
+        <InvoiceListItem>
+          <Link to="/invoice" className="container">
+            <p className="uid"><span>#</span>Inv001</p>
+            <p className="payment-due"></p>
+            <p className="client-name">hello</p>
+            <p className="total-price"></p>
+            <div className="status"></div>
+          </Link>
+        </InvoiceListItem>
+        <InvoiceListItem>
+          <Link to="/invoice" className="container">
+            <p className="uid"><span>#</span>Inv001</p>
+            <p className="payment-due"></p>
+            <p className="client-name">hello</p>
+            <p className="total-price"></p>
+            <div className="status"></div>
+          </Link>
+        </InvoiceListItem>
       </Invoices>
     </Layout>
   );
@@ -29,8 +48,11 @@ const TitleHeader = styled("div")`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin: 2rem 0;
+  gap: 1.125rem;
   ${minMobile} {
     margin: 72px 0 64px 0;
+    gap: 2.5rem;
   }
   h2 {
     font-size: 2rem;
