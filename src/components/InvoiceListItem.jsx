@@ -1,23 +1,43 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { styled } from "goober";
 import { minMobile } from "../../globalStyle.jsx";
+import ArrowRight from "../assets/images/ArrowRight.jsx";
+import StatusIndicator from "./InvoiceStatusIndicator.jsx";
 
-function InvoiceListItem({ children }) {
+function InvoiceListItem({ index, invoiceId, dueDate, clientName, totalPrice, invoiceStatus }) {
   return (
-    <Wrapper>
-      {children}
+    <Wrapper delay={index * 0.2}>
+      <Link to={`/invoice`} className="container">
+        <p className="uid"><span>#</span>{invoiceId}</p>
+        <p className="payment-due">Due {dueDate}</p>
+        <p className="client-name">{clientName}</p>
+        <p className="total-price">&#8358; {totalPrice ? totalPrice: "0.00" }</p>
+        <div className="status">
+          <StatusIndicator status={invoiceStatus} />
+        </div>
+        <ArrowRight />
+      </Link>
     </Wrapper>
   );
 };
 
 export default InvoiceListItem;
 
-const Wrapper = styled("div")`
-  background-color: var(--light);
-  color: var(--primary);
+const Wrapper = styled("li")`
+  background-color: rgba(0, 45, 124, 0.4);
+  color: var(--light);
   border-radius: var(--br);
-  box-shadow: 0 10px 10px -10px hsla(231,38%,45%,10%);
-  transition: background-color 400ms ease-in-out;
+  box-shadow: 0 10px 10px -10px rgba(71, 84, 158, 0.1);
+  opacity: 0;
+  animation: fadeIn 0.5s forwards;
+  animation-delay: ${(props) => props.delay}s;
+
+  @keyframes fadeIn {
+    to {
+      opacity: 1;
+    }
+  }
   .container {
     display: grid;
     grid-template-rows: 1.5fr 1fr 1fr;
@@ -30,7 +50,7 @@ const Wrapper = styled("div")`
     border: 1px solid transparent;
     border-radius: var(--br);
     .uid {
-      font-family: "Inter-SemiBold", sans-serif;
+      font-family: var(--semi-bold);
       font-weight: 700;
       font-size: 0.75rem;
       grid-area: uid;
@@ -47,27 +67,23 @@ const Wrapper = styled("div")`
     }
     .total-price {
       font-weight: 700;
-      font-size: 1rem;
+      font-family: var(--semi-bold);
+      font-size: 1.25rem;
       line-height: 1.5;
       grid-area: totalprice;
     }
     .status {
       grid-area: status;
-      width: 104px;
-      padding: 13px 0;
-      font-weight: 700;
-      text-align: center;
-      border-radius: var(--br-sm);
-      background-color: hsla(231,75%,93%,5.71%);
-      color: hsl(231,75%,93%);
-      align-self: center;
+    }
+    svg {
+      display: none;
     }
     ${minMobile} {
       grid-template-rows: unset;
       grid-template-areas: unset;
-      grid-template-columns: 103px 151px 145px 103px 146px 28px;
+      grid-template-columns: 103px 151px 145px 153px 146px 28px;
       align-items: center;
-      padding: 15px 20px 15px 32px;
+      padding: 0.875rem 1.25rem 0.875rem 2rem;
       .uid {
         grid-area: unset;
       }
@@ -85,6 +101,10 @@ const Wrapper = styled("div")`
       .status {
         grid-area: unset;
         justify-self: end;
+      }
+      svg {
+        display: block;
+        margin-left: auto;
       }
     }
   }

@@ -46,6 +46,8 @@ export const GlobalStyles = createGlobalStyles`
     -webkit-text-size-adjust: 100%;
     background-color: var(--primary);
     color: var(--white);
+    --medium: "Inter-Medium", sans-serif;
+    --semi-bold: "Inter-SemiBold", sans-serif;
     
     /* border radius */
     --br-sm: 6px; 
@@ -63,61 +65,61 @@ export const GlobalStyles = createGlobalStyles`
   body {
     font-size: 16px;
     width: 100%;
+  }
 
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6,
-    p,
-    ol,
-    ul,
-    menu {
-      margin: 0;
-      padding: 0;
-    }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p,
+  ol,
+  ul,
+  menu {
+    margin: 0;
+    padding: 0;
+  }
 
-    h1, h2, h3 {
-      font-family: "Inter-Semibold", sans-serif;
-    }
+  h1, h2, h3 {
+    font-family: var(--semi-bold);
+  }
 
-    img {
-      display: block;
-      height: auto;
-      user-select: none;
-      -webkit-user-drag: none;
-    }
+  img {
+    display: block;
+    height: auto;
+    user-select: none;
+    -webkit-user-drag: none;
+  }
 
-    a {
-      text-decoration: none;
-      color: inherit;
-    }
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
 
+  svg {
+    display: block;
+  }
+
+  button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.625rem;
+    width: 100%;
+    text-align: center;
+    outline: none;
+    font-family: 'Inter-Medium',sans-serif;
+    cursor: pointer;
+    background: none;
+    white-space: nowrap;
+    border: none;
     svg {
-      display: block;
+      fill: var(--button-svg-color);
     }
-
-    button {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.625rem;
-      width: 100%;
-      text-align: center;
-      outline: none;
-      font-family: 'Inter-Medium',sans-serif;
-      cursor: pointer;
-      background: none;
-      white-space: nowrap;
-      border: none;
-      svg {
-        fill: var(--button-svg-color);
-      }
-      &.disabled {
-        cursor: not-allowed;
-        opacity: 0.5;
-      }
+    &.disabled {
+      cursor: not-allowed;
+      opacity: 0.5;
     }
   }
   @keyframes slideIn {

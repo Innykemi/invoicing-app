@@ -19,7 +19,14 @@ function Home() {
         </Options>
       </TitleHeader>
       <Invoices>
-        <InvoiceListItem>
+        <InvoiceListItem index={1}
+          invoiceId="Inv01"
+          dueDate="20 Aug 2023"
+          clientName="Try Maxim"
+          totalPrice="2,000,000"
+          invoiceStatus="Pending"
+        />
+        <InvoiceListItem index={2}>
           <Link to="/invoice" className="container">
             <p className="uid"><span>#</span>Inv001</p>
             <p className="payment-due"></p>
@@ -28,7 +35,7 @@ function Home() {
             <div className="status"></div>
           </Link>
         </InvoiceListItem>
-        <InvoiceListItem>
+        <InvoiceListItem index={3}>
           <Link to="/invoice" className="container">
             <p className="uid"><span>#</span>Inv001</p>
             <p className="payment-due"></p>
@@ -51,7 +58,7 @@ const TitleHeader = styled("div")`
   margin: 2rem 0;
   gap: 1.125rem;
   ${minMobile} {
-    margin: 72px 0 64px 0;
+    margin: 4.5rem 0 4rem 0;
     gap: 2.5rem;
   }
   h2 {
@@ -69,8 +76,8 @@ const Options = styled("div")`
   .new-invoice {
     display: flex;
     gap: 1rem;
-    background: var(--green);
-    color: var(--primary);
+    background: var(--blue);
+    color: var(--white);
     border-radius: var(--br-xl);
     font-size: 0.75rem;
     font-weight: 600;
@@ -86,8 +93,10 @@ const Options = styled("div")`
     }
   }
 `;
-const Invoices = styled("div")`
+const Invoices = styled("ul")`
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  list-style: none;
+  padding: 0;
 `;
