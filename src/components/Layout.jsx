@@ -32,15 +32,6 @@ const Wrapper = styled("main")`
 const Container = styled("div")`
   margin-bottom: 2.5rem;
   padding: 0 1.5rem;
-  .back-link {
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;
-    margin-bottom: 2rem;
-    font-size: 0.75rem;
-    font-family: var(--semi-bold);
-    font-weight: 700;
-  }
   ${minMobile} {
     max-width: 780px;
     width: 100%;

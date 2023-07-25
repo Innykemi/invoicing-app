@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { styled } from "goober";
+import { keyframes, styled } from "goober";
 import { minMobile } from "../../globalStyle.jsx";
 import Button from "../assets/components/Button.jsx";
 import ArrowLeft from "../assets/images/ArrowLeft.jsx";
@@ -10,7 +10,7 @@ import Layout from "../components/Layout.jsx";
 function Invoice() {
   return (
     <Layout className="invoice">
-      <Link to="/" className="back-link"><ArrowLeft />Go back</Link>
+      <BackLink to="/" className="fade-in"><ArrowLeft />Go back</BackLink>
       <Header>
         <p className="status-label">Status</p>
         <StatusIndicator status="paid" />
@@ -84,6 +84,36 @@ function Invoice() {
 
 export default Invoice;
 
+const fadeInAnimation1 = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
+const fadeInAnimation2 = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
+const BackLink = styled(Link)`
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+  font-size: 0.75rem;
+  font-family: var(--semi-bold);
+  font-weight: 700;
+  animation: ${fadeInAnimation1} 1s ease-in-out;
+`;
 const Header = styled("div")`
   display: flex;
   align-items: center;
@@ -92,6 +122,7 @@ const Header = styled("div")`
   border-radius: var(--br);
   background: rgba(0, 45, 124, 0.4);
   box-shadow: 0 10px 10px -10px rgba(71, 84, 158, 0.1);
+  animation: ${fadeInAnimation1} 1s ease-in-out;
   .status-label {
     font-size: 0.75rem;
   }
@@ -118,6 +149,7 @@ const Content = styled("article")`
   border-radius: var(--br);
   box-shadow: 0 10px 10px -10px rgba(71, 84, 158, 0.1);
   padding: 3rem;
+  animation: ${fadeInAnimation2} 1s ease-in-out;
 `;
 const Info = styled("div")`
   display: grid;
@@ -275,3 +307,4 @@ const AmountDue = styled("div")`
     font-family: var(--semi-bold);
   }
 `;
+
