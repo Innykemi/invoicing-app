@@ -25,7 +25,7 @@ function InvoiceListItem({ index, invoiceId, dueDate, clientName, totalPrice, in
 export default InvoiceListItem;
 
 const Wrapper = styled("li")`
-  background-color: rgba(0, 45, 124, 0.4);
+  background-color: var(--blue-light);
   color: var(--light);
   border-radius: var(--br);
   box-shadow: 0 10px 10px -10px rgba(71, 84, 158, 0.1);

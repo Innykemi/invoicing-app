@@ -36,6 +36,7 @@ export const GlobalStyles = createGlobalStyles`
     --primary: #011A27;
     --green: #BCE909;
     --blue: #002D7C;
+    --blue-light: rgba(0, 45, 124, 0.4);
   
     /* fonts */
     font-family: 'Inter-Regular', sans-serif;
@@ -122,15 +123,16 @@ export const GlobalStyles = createGlobalStyles`
       opacity: 0.5;
     }
   }
-  @keyframes slideIn {
-    0% {
-      transform: translateX(-20%);
+  @keyframes popOut {
+    from {
+      opacity: 0;
+      transform: scale(0.5);
     }
-    100% {
-      transform: translateX(0);
+    to {
+      opacity: 1;
+      transform: scale(1);
     }
   }
-
   @keyframes slideInFadeIn {
     0% {
       opacity: 0;
@@ -142,8 +144,8 @@ export const GlobalStyles = createGlobalStyles`
     }
   }
   
-  .animate-in {
-    animation: slideIn 800ms cubic-bezier(0.42, 0, 0.58, 1);
+  .pop-out {
+    animation: popOut 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
   }
   .fade-in {
     animation: slideInFadeIn 800ms cubic-bezier(0.42, 0, 0.58, 1);
