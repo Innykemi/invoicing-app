@@ -1,13 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { keyframes, styled } from "goober";
 import { minMobile } from "../../globalStyle.jsx";
-import Button from "../assets/components/Button.jsx";
+import Button from "../components/form/Button.jsx";
 import ArrowLeft from "../assets/images/ArrowLeft.jsx";
 import StatusIndicator from "../components/InvoiceStatusIndicator.jsx";
 import Layout from "../components/Layout.jsx";
+import Modal from "../components/modal/index.jsx";
 
 function Invoice() {
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showStatusModal, setShowStatusModal] = useState(false);
+
+  const handleDeleteModal = () => {
+    setShowDeleteModal(!showDeleteModal);
+  }
+  const handleStatusModal = () => {
+    setShowStatusModal(!showStatusModal);
+  }
   return (
     <Layout className="invoice">
       <BackLink to="/" className="fade-in"><ArrowLeft />Go back</BackLink>
@@ -18,10 +28,10 @@ function Invoice() {
           <Button bg="rgba(0, 45, 124, 0.6)" textcolor="var(--light)" >
             Edit
           </Button>
-          <Button bg="#ec5555" textcolor="var(--white)">
+          <Button bg="#ec5555" textcolor="var(--white)" onClick={handleDeleteModal}>
             Delete
           </Button>
-          <Button bg="var(--green)" textcolor="var(--primary)">
+          <Button bg="var(--green)" textcolor="var(--primary)" onClick={handleStatusModal}>
             Mark as Paid
           </Button>
         </div>
@@ -78,6 +88,8 @@ function Invoice() {
           <h2>&#8358; 556.00</h2>
         </AmountDue>
       </Content>
+      {showDeleteModal && <Modal isDelete handleClose={handleDeleteModal} />}
+      {showStatusModal && <Modal isStatus handleClose={handleStatusModal} />}
     </Layout>
   );
 }
@@ -120,7 +132,7 @@ const Header = styled("div")`
   justify-content: space-between;
   margin-bottom: 1.5rem;
   border-radius: var(--br);
-  background: rgba(0, 45, 124, 0.4);
+  background: var(--blue-light);
   box-shadow: 0 10px 10px -10px rgba(71, 84, 158, 0.1);
   animation: ${fadeInAnimation1} 1s ease-in-out;
   .status-label {
@@ -145,7 +157,7 @@ const Header = styled("div")`
   }
 `;
 const Content = styled("article")`
-  background-color: rgba(0, 45, 124, 0.4);
+  background-color: var(--blue-light);
   border-radius: var(--br);
   box-shadow: 0 10px 10px -10px rgba(71, 84, 158, 0.1);
   padding: 3rem;
