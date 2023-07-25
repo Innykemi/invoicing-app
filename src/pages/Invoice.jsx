@@ -74,8 +74,8 @@ function Invoice() {
           </div>
         </ServicePrices>
         <AmountDue>
-          <h5 className="">Amount Due</h5>
-          <p className="">&#8358; 556.00</p>
+          <p>Amount Due</p>
+          <h2>&#8358; 556.00</h2>
         </AmountDue>
       </Content>
     </Layout>
@@ -266,4 +266,12 @@ const AmountDue = styled("div")`
   border-radius: 0 0 var(--br) var(--br);
   padding: 0.875rem 2rem;
   background: var(--black);
+  p {
+    font-size: 0.6875rem;
+  }
+  h2 {
+    font-size 1.5rem;
+    font-weight: 700;
+    font-family: var(--semi-bold);
+  }
 `;

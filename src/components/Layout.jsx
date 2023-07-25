@@ -42,11 +42,10 @@ const Container = styled("div")`
     font-weight: 700;
   }
   ${minMobile} {
-    max-width: 830px;
+    max-width: 780px;
     width: 100%;
     margin: 0 auto 2.5rem auto;
-    margin-left: auto;
-    width: calc(100vw - 6.375rem);
+    width: 100%;
     padding: 0;
   }
 `;

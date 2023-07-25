@@ -81,7 +81,7 @@ const Wrapper = styled("li")`
     ${minMobile} {
       grid-template-rows: unset;
       grid-template-areas: unset;
-      grid-template-columns: 103px 151px 145px 153px 146px 28px;
+      grid-template-columns: 103px 140px 177px 153px 115px 28px;
       align-items: center;
       padding: 0.875rem 1.25rem 0.875rem 2rem;
       .uid {

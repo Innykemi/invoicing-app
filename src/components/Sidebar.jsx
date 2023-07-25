@@ -23,14 +23,14 @@ const Container = styled("header")`
   align-items: center;
   background: var(--light);
   transition: background-color 400s ease-in-out;
-  position: sticky;
-  top: 0;
   z-index: 10;
   ${minMobile} {
     flex-direction: column;
     min-height: 100vh;
     min-width: 6.375rem;
     border-radius: 0 var(--br-lg) var(--br-lg) 0;
+    position: fixed;
+    top: 0;
   }
 `;
 
