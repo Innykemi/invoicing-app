@@ -8,7 +8,7 @@ function Main() {
     <Router>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/invoice" element={<Invoice />} />
+        <Route path="/invoice/:invoiceId" element={<Invoice />} />
       </Routes>
     </Router>
   );
