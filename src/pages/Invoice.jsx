@@ -1,18 +1,20 @@
 import React, { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { keyframes, styled } from "goober";
-import { minMobile } from "../../globalStyle.jsx";
+import { minMobile, mobileSmall } from "../../globalStyle.jsx";
+import { getInvoicesFromLocalStorage } from '../actions/InvoiceActions.jsx';
 import Button from "../components/form/Button.jsx";
 import ArrowLeft from "../assets/images/ArrowLeft.jsx";
 import StatusIndicator from "../components/InvoiceStatusIndicator.jsx";
 import Layout from "../components/Layout.jsx";
 import Modal from "../components/modal/index.jsx";
-import { getInvoicesFromLocalStorage } from '../actions/InvoiceActions.jsx';
+import { useWindowResize } from "../utils/helpers.jsx";
 
 function Invoice() {
   const { invoiceId } = useParams();
   const invoices = getInvoicesFromLocalStorage();
   const selectedInvoice = invoices.find((invoice) => invoice.invoiceId === invoiceId);
+  const windowWidth = useWindowResize();
   
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showStatusModal, setShowStatusModal] = useState(false);
@@ -38,17 +40,19 @@ function Invoice() {
       <Header>
         <p className="status-label">Status</p>
         <StatusIndicator status={selectedInvoice.status} />
-        <div className="invoice-actions">
-          <Button bg="rgba(0, 45, 124, 0.6)" textcolor="var(--light)" onClick={handleInvoiceModal}>
-            Edit
-          </Button>
-          <Button bg="#ec5555" textcolor="var(--white)" onClick={handleDeleteModal}>
-            Delete
-          </Button>
-          <Button bg="var(--green)" textcolor="var(--primary)" onClick={handleStatusModal}>
-            Mark as Paid
-          </Button>
-        </div>
+        {windowWidth >= 768 && (
+          <InvoiceActions>
+            <Button bg="rgba(0, 45, 124, 0.6)" textcolor="var(--light)" onClick={handleInvoiceModal}>
+              Edit
+            </Button>
+            <Button bg="#ec5555" textcolor="var(--white)" onClick={handleDeleteModal}>
+              Delete
+            </Button>
+            <Button bg="var(--green)" textcolor="var(--primary)" onClick={handleStatusModal}>
+              Mark as Paid
+            </Button>
+          </InvoiceActions>
+        )}
       </Header>
       <Content>
         <Info>
@@ -77,18 +81,30 @@ function Invoice() {
         </Info>
         <ServicePrices>
           <div className="items-wrapper">
-            <div className="item-header">
-              <p>Item name</p>
-              <p>Qty.</p>
-              <p>Price</p>
-              <p>Total</p>
-            </div>
+            {windowWidth >= 768 && (
+              <div className="item-header">
+                <p>Item name</p>
+                <p>Qty.</p>
+                <p>Price</p>
+                <p>Total</p>
+              </div>
+            )}
             {selectedInvoice?.items.map((item, index) => (
               <div className="item-details" key={index}>
-                <p className="item-name">{item.itemName}</p>
-                <p className="item-qty">{item.quantity}</p>
-                <p className="item-price">&#8358; {item.price}</p>
-                <p className="item-total-price">&#8358; {item.totalPrice}</p>
+                {windowWidth >= 768 ? (
+                  <>
+                    <p className="item-name">{item.itemName}</p>
+                    <p className="item-qty">{item.quantity}</p>
+                    <p className="item-price">&#8358; {item.price}</p>
+                    <p className="item-total-price">&#8358; {item.totalPrice}</p>
+                  </>
+                ) : 
+                  <>
+                    <p className="item-name">{item.itemName}</p>
+                    <p className="item-qty">{item.quantity} x &#8358; {item.price}</p>
+                    <p className="item-total-price">&#8358; {item.totalPrice}</p>
+                  </>
+                }
               </div>
             ))}
           </div>
@@ -98,6 +114,19 @@ function Invoice() {
           <h2>&#8358; {totalAmount}</h2>
         </AmountDue>
       </Content>
+      {windowWidth <= 767 && (
+        <InvoiceActions>
+          <Button bg="rgba(0, 45, 124, 0.6)" textcolor="var(--light)" onClick={handleInvoiceModal}>
+            Edit
+          </Button>
+          <Button bg="#ec5555" textcolor="var(--white)" onClick={handleDeleteModal}>
+            Delete
+          </Button>
+          <Button bg="var(--green)" textcolor="var(--primary)" onClick={handleStatusModal}>
+            Mark as Paid
+          </Button>
+        </InvoiceActions>
+      )}
       {showInvoiceModal && <Modal isForm handleClose={handleInvoiceModal} />}
       {showDeleteModal && <Modal isDelete handleClose={handleDeleteModal} />}
       {showStatusModal && <Modal isStatus handleClose={handleStatusModal} />}
@@ -146,25 +175,13 @@ const Header = styled("div")`
   background: var(--blue-light);
   box-shadow: 0 10px 10px -10px rgba(71, 84, 158, 0.1);
   animation: ${fadeInAnimation1} 1s ease-in-out;
+  padding: 0.75rem 1rem;
   .status-label {
     font-size: 0.75rem;
-  }
-  .invoice-actions {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    padding: 1.375rem 0;
-    margin-top: 3.5rem;
   }
   ${minMobile} {
     padding: 1.25rem 1.5rem;
     gap: 1rem;
-    .invoice-actions {
-      margin-top: unset;
-      margin-left: auto;
-      padding: unset;
-    }
   }
 `;
 const Content = styled("article")`
@@ -173,6 +190,9 @@ const Content = styled("article")`
   box-shadow: 0 10px 10px -10px rgba(71, 84, 158, 0.1);
   padding: 3rem;
   animation: ${fadeInAnimation2} 1s ease-in-out;
+  ${mobileSmall} {
+    padding: 1.5rem;
+  }
 `;
 const Info = styled("div")`
   display: grid;
@@ -207,6 +227,9 @@ const Info = styled("div")`
       font-size: 1rem;
       line-height: 1;
       color: var(--white);
+      ${mobileSmall} {
+        font-size: 0.875rem;
+      }
     }
   }
   .invoice-id {
@@ -240,7 +263,7 @@ const Info = styled("div")`
     align-self: end;
   }
   ${minMobile} {
-    grid-template-columns: auto auto auto;
+    grid-template-columns: 1fr 0.8fr 1fr;
     grid-template-areas:
       'key . senderAddress'
       'createdDate clientInfo email'
@@ -250,6 +273,19 @@ const Info = styled("div")`
       justify-self: end;
       text-align: right;
     }
+  }
+`;
+const InvoiceActions = styled("div")`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 1.375rem 0;
+  margin-top: 1.5rem;
+  ${minMobile} {
+    margin-top: unset;
+    margin-left: auto;
+    padding: unset;
   }
 `;
 const ServicePrices = styled("div")`
@@ -328,6 +364,11 @@ const AmountDue = styled("div")`
     font-size 1.5rem;
     font-weight: 700;
     font-family: var(--semi-bold);
+  }
+  ${mobileSmall} {
+    h2 {
+      font-size: 0.9375rem;
+    }
   }
 `;
 
