@@ -16,6 +16,8 @@ const InvoiceForm = ({ handleClose }) => {
     client_email: "",
     client_street_address: "",
     client_city: "",
+    client_zipcode: "",
+    client_country: "",
     invoice_date: "",
     invoice_due_date: "",
     project_desc: "",
