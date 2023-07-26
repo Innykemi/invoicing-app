@@ -1,0 +1,182 @@
+[
+    {
+      "id": 1,
+      "invoiceId": "INV01",
+      "createdAt": "2023-07-26T00:00:00.522-01:00",
+      "userName": "Tami Maddox",
+      "userStreetAddress": "Cass Place",
+      "userCity": "Bison",
+      "userZipcode": 2197,
+      "userCountry": "Suriname",
+      "clientName": "Foreman Bentley",
+      "clientEmail": "foremanbentley@hairport.com",
+      "clientStreetAddress": "Tapscott Avenue",
+      "clientCity": "Taft",
+      "clientZipcode": 8452,
+      "clientCountry": "Netherlands",
+      "invoiceDate": "2023-07-07",
+      "invoiceDueDate": "2023-08-30",
+      "projectDesc": "Fugiat dolor laborum voluptate labore veniam quis culpa eu minim ea do eu labore.",
+      "additionalNote": "Anim mollit est et adipisicing qui excepteur esse veniam nisi magna nostrud ea sit.",
+      "items": [
+        {
+          "itemName": "irure",
+          "quantity": 5,
+          "price": 21.59,
+          "totalPrice": "107.95"
+        },
+        {
+          "itemName": "cillum",
+          "quantity": 4,
+          "price": 37.2,
+          "totalPrice": "148.80"
+        }
+      ],
+      "totalAmount": 294.09,
+      "status": "Draft"
+    },
+    {
+      "id": 2,
+      "invoiceId": "INV02",
+      "createdAt": "2023-07-26T00:00:00.522-01:00",
+      "userName": "Maldonado Crane",
+      "userStreetAddress": "Keen Court",
+      "userCity": "Hasty",
+      "userZipcode": 1106,
+      "userCountry": "Bosnia and Herzegovina",
+      "clientName": "Sexton Copeland",
+      "clientEmail": "sextoncopeland@hairport.com",
+      "clientStreetAddress": "Miller Avenue",
+      "clientCity": "Harmon",
+      "clientZipcode": 4631,
+      "clientCountry": "Mexico",
+      "invoiceDate": "2023-07-24",
+      "invoiceDueDate": "2023-08-14",
+      "projectDesc": "Enim fugiat nostrud nulla reprehenderit esse consectetur deserunt labore proident anim excepteur ex.",
+      "additionalNote": "Consectetur cupidatat est proident voluptate irure cupidatat.",
+      "items": [
+        {
+          "itemName": "tempor",
+          "quantity": 3,
+          "price": 57.65,
+          "totalPrice": "172.95"
+        },
+        {
+          "itemName": "sunt",
+          "quantity": 3,
+          "price": 46.27,
+          "totalPrice": "138.81"
+        }
+      ],
+      "totalAmount": 444.66,
+      "status": "Paid"
+    },
+    {
+      "id": 3,
+      "invoiceId": "INV03",
+      "createdAt": "2023-07-26T00:00:00.522-01:00",
+      "userName": "Tracey Blackburn",
+      "userStreetAddress": "Bedford Place",
+      "userCity": "Herbster",
+      "userZipcode": 7318,
+      "userCountry": "Fiji",
+      "clientName": "Hopkins Bradford",
+      "clientEmail": "hopkinsbradford@hairport.com",
+      "clientStreetAddress": "Bushwick Place",
+      "clientCity": "Shaft",
+      "clientZipcode": 6479,
+      "clientCountry": "Egypt",
+      "invoiceDate": "2023-07-17",
+      "invoiceDueDate": "2023-08-09",
+      "projectDesc": "Nostrud reprehenderit labore eiusmod anim sunt consequat veniam.",
+      "additionalNote": "Fugiat sit nulla consectetur cupidatat sunt aliqua laboris aliquip laborum nisi voluptate in amet anim.",
+      "items": [
+        {
+          "itemName": "labore",
+          "quantity": 4,
+          "price": 24.3,
+          "totalPrice": "97.20"
+        },
+        {
+          "itemName": "culpa",
+          "quantity": 2,
+          "price": 59.43,
+          "totalPrice": "118.86"
+        }
+      ],
+      "totalAmount": 777.75,
+      "status": "Paid"
+    },
+    {
+      "id": 4,
+      "invoiceId": "INV04",
+      "createdAt": "2023-07-26T00:00:00.522-01:00",
+      "userName": "Carolyn Orr",
+      "userStreetAddress": "Agate Court",
+      "userCity": "Rosedale",
+      "userZipcode": 6187,
+      "userCountry": "Pitcairn",
+      "clientName": "Langley Henry",
+      "clientEmail": "langleyhenry@hairport.com",
+      "clientStreetAddress": "Greenwood Avenue",
+      "clientCity": "Goochland",
+      "clientZipcode": 1939,
+      "clientCountry": "Equatorial Guinea",
+      "invoiceDate": "2023-07-25",
+      "invoiceDueDate": "2023-07-30",
+      "projectDesc": "Incididunt ea aute minim magna occaecat velit pariatur irure.",
+      "additionalNote": "Elit magna dolor sint qui pariatur qui irure ullamco reprehenderit sunt reprehenderit aliquip.",
+      "items": [
+        {
+          "itemName": "do",
+          "quantity": 5,
+          "price": 73.46,
+          "totalPrice": "367.30"
+        },
+        {
+          "itemName": "eu",
+          "quantity": 2,
+          "price": 78.41,
+          "totalPrice": "156.82"
+        }
+      ],
+      "totalAmount": 243.41,
+      "status": "Draft"
+    },
+    {
+      "id": 5,
+      "invoiceId": "INV05",
+      "createdAt": "2023-07-26T00:00:00.522-01:00",
+      "userName": "Guy Benson",
+      "userStreetAddress": "Bartlett Place",
+      "userCity": "Rosewood",
+      "userZipcode": 9700,
+      "userCountry": "Mali",
+      "clientName": "Mercedes Fox",
+      "clientEmail": "mercedesfox@hairport.com",
+      "clientStreetAddress": "Frank Court",
+      "clientCity": "Ribera",
+      "clientZipcode": 1390,
+      "clientCountry": "Belarus",
+      "invoiceDate": "2023-07-04",
+      "invoiceDueDate": "2023-08-13",
+      "projectDesc": "Cupidatat consequat consequat exercitation nostrud veniam mollit nisi sint minim dolor sint laboris.",
+      "additionalNote": "Quis consectetur pariatur consequat sint nulla enim reprehenderit qui anim excepteur eiusmod exercitation voluptate.",
+      "items": [
+        {
+          "itemName": "adipisicing",
+          "quantity": 5,
+          "price": 91.44,
+          "totalPrice": "457.20"
+        },
+        {
+          "itemName": "pariatur",
+          "quantity": 5,
+          "price": 44.12,
+          "totalPrice": "220.60"
+        }
+      ],
+      "totalAmount": 627.97,
+      "status": "Pending"
+    }
+  ]
