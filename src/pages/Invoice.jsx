@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { keyframes, styled } from "goober";
 import { minMobile } from "../../globalStyle.jsx";
 import Button from "../components/form/Button.jsx";
@@ -7,8 +7,13 @@ import ArrowLeft from "../assets/images/ArrowLeft.jsx";
 import StatusIndicator from "../components/InvoiceStatusIndicator.jsx";
 import Layout from "../components/Layout.jsx";
 import Modal from "../components/modal/index.jsx";
+import { getInvoicesFromLocalStorage } from '../actions/InvoiceActions.jsx';
 
 function Invoice() {
+  const { invoiceId } = useParams();
+  const invoices = getInvoicesFromLocalStorage();
+  const selectedInvoice = invoices.find((invoice) => invoice.invoiceId === invoiceId);
+  
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showStatusModal, setShowStatusModal] = useState(false);
   const [showInvoiceModal, setShowInvoiceModal] = useState(false);
@@ -23,12 +28,16 @@ function Invoice() {
     setShowInvoiceModal(!showInvoiceModal);
   }
 
+  const totalAmount = selectedInvoice?.items.reduce((total, item) => {
+    return total + parseFloat(item.totalPrice);
+  }, 0).toFixed(2);
+
   return (
     <Layout className="invoice">
       <BackLink to="/" className="fade-in"><ArrowLeft />Go back</BackLink>
       <Header>
         <p className="status-label">Status</p>
-        <StatusIndicator status="paid" />
+        <StatusIndicator status={selectedInvoice.status} />
         <div className="invoice-actions">
           <Button bg="rgba(0, 45, 124, 0.6)" textcolor="var(--light)" onClick={handleInvoiceModal}>
             Edit
@@ -44,26 +53,26 @@ function Invoice() {
       <Content>
         <Info>
           <div className="invoice-id">
-            <h3>#inv01</h3>
-            <p>Project description</p>
+            <h3>#{selectedInvoice.invoiceId}</h3>
+            <p>{selectedInvoice.projectDesc}</p>
           </div>
-          <address className="user-address">why you want</address>
+          <address className="user-address">{selectedInvoice.userStreetAddress}</address>
           <div className="invoice-date grid">
             <h4 className="label">Invoice Date</h4>
-            <p className="desc">30 Jul 2023</p>
+            <p className="desc">{selectedInvoice.invoiceDate}</p>
           </div>
           <div className="client-info grid">
             <h4 className="label">Bill to</h4>
-            <p className="desc">Client Info</p>
-            <address>why you want</address>
+            <p className="desc">{selectedInvoice.clientName}</p>
+            <address>{selectedInvoice.clientStreetAddress}</address>
           </div>
           <div className="client-email grid">
             <h4 className="label">Sent to</h4>
-            <p className="desc">client email</p>
+            <p className="desc">{selectedInvoice.clientEmail}</p>
           </div>
           <div className="payment-due grid">
             <h4 className="label">Payment Due</h4>
-            <p className="desc">30 Aug 2023</p>
+            <p className="desc">{selectedInvoice.invoiceDueDate}</p>
           </div>
         </Info>
         <ServicePrices>
@@ -74,23 +83,19 @@ function Invoice() {
               <p>Price</p>
               <p>Total</p>
             </div>
-            <div className="item-details">
-              <p className="item-name">Banner Design</p>
-              <p className="item-qty">1 </p>
-              <p className="item-price">&#8358; 156.00</p>
-              <p className="item-total-price">&#8358; 156.00</p>
-            </div>
-            <div className="item-details">
-              <p className="item-name">Banner Design</p>
-              <p className="item-qty">1 </p>
-              <p className="item-price">&#8358; 156.00</p>
-              <p className="item-total-price">&#8358; 156.00</p>
-            </div>
+            {selectedInvoice?.items.map((item, index) => (
+              <div className="item-details" key={index}>
+                <p className="item-name">{item.itemName}</p>
+                <p className="item-qty">{item.quantity}</p>
+                <p className="item-price">&#8358; {item.price}</p>
+                <p className="item-total-price">&#8358; {item.totalPrice}</p>
+              </div>
+            ))}
           </div>
         </ServicePrices>
         <AmountDue>
           <p>Amount Due</p>
-          <h2>&#8358; 556.00</h2>
+          <h2>&#8358; {totalAmount}</h2>
         </AmountDue>
       </Content>
       {showInvoiceModal && <Modal isForm handleClose={handleInvoiceModal} />}
