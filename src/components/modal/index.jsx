@@ -1,7 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { styled } from "goober";
-import { minMobile } from "../../../globalStyle.jsx";
 import { createWrapperAndAppendToBody } from "../../utils/helpers.jsx";
 import ModalDelete from "./ModalDelete.jsx";
 import ModalStatus from "./ModalStatus.jsx";

@@ -21,6 +21,10 @@ const buttonStyles = `
     cursor: not-allowed;
     opacity: 0.5;
   }
+  &:focus {
+    outline: none;
+    box-shadow: none;
+  }
 `;
 
 const Button = ({ leftIcon, textcolor, bg, children, className="", onClick, type="button", disabled }) => {

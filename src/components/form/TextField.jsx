@@ -10,8 +10,12 @@ export const Wrapper = styled("div")`
   label {
     color: var(--light);
     font-size: 0.75rem;
+    @media screen and (min-width: 768px) {
+      display: ${props => (props.hidelabelondesktop ? "none" : "block")};
+    }
   }
   input {
+    min-width: 10.9375rem;
     width: 100%;
     padding: 1rem 0.75rem 1rem 1.25rem;
     border-radius: 4px;
@@ -61,10 +65,10 @@ export const Wrapper = styled("div")`
   }
 `;
 
-const TextField = React.forwardRef(({ label, disabled, width, className="", ...props }, ref) => {
+const TextField = React.forwardRef(({ label, disabled, width, className="", hidelabelondesktop, ...props }, ref) => {
   return (
-    <Wrapper className={className}>
-      {label &&
+    <Wrapper className={className} hidelabelondesktop={hidelabelondesktop}>
+      {label && 
         <div className="label">
           <label className="type-body3" htmlFor={props.id || props.name}>{label}</label>
         </div>
