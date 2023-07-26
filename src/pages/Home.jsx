@@ -1,21 +1,27 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { styled } from "goober";
 import { minMobile } from "../../globalStyle.jsx";
 import PlusIcon from "../assets/images/PlusIcon.jsx";
-import Layout from "../components/Layout.jsx";
 import InvoiceListItem from "../components/InvoiceListItem.jsx";
+import Layout from "../components/Layout.jsx";
+import Modal from "../components/modal/index.jsx";
 
 function Home() {
+  const [showInvoiceModal, setShowInvoiceModal] = useState(false);
+
+  const handleInvoiceModal = () => {
+    setShowInvoiceModal(!showInvoiceModal); 
+  };
   return (
     <Layout>
       <TitleHeader className="fade-in">
         <h2>Invoices</h2>
         <Options>
-          <button className="filter">Filter by status</button>
-          <button className="new-invoice">
+          <button className="new-invoice" onClick={handleInvoiceModal}>
             <span className="icon-container"><PlusIcon /></span>
-            New Invoice</button>
+            New Invoice
+          </button>
         </Options>
       </TitleHeader>
       <Invoices>
@@ -45,6 +51,7 @@ function Home() {
           </Link>
         </InvoiceListItem>
       </Invoices>
+      {showInvoiceModal && <Modal isForm handleClose={handleInvoiceModal} />}
     </Layout>
   );
 }

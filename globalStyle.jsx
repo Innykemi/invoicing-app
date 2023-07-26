@@ -1,6 +1,5 @@
 import { createGlobalStyles } from "goober/global";
 
-export const desktop = `@media screen and (max-width: 1440px)`;
 export const minTablet = `@media screen and (min-width: 1024px)`;
 export const tablet = `@media screen and (max-width: 1023px)`;
 export const tabletSmall = `@media screen and (max-width: 991px)`;

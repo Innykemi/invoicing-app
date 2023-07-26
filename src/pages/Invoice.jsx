@@ -11,6 +11,7 @@ import Modal from "../components/modal/index.jsx";
 function Invoice() {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showStatusModal, setShowStatusModal] = useState(false);
+  const [showInvoiceModal, setShowInvoiceModal] = useState(false);
 
   const handleDeleteModal = () => {
     setShowDeleteModal(!showDeleteModal);
@@ -18,6 +19,10 @@ function Invoice() {
   const handleStatusModal = () => {
     setShowStatusModal(!showStatusModal);
   }
+  const handleInvoiceModal = () => {
+    setShowInvoiceModal(!showInvoiceModal);
+  }
+
   return (
     <Layout className="invoice">
       <BackLink to="/" className="fade-in"><ArrowLeft />Go back</BackLink>
@@ -25,7 +30,7 @@ function Invoice() {
         <p className="status-label">Status</p>
         <StatusIndicator status="paid" />
         <div className="invoice-actions">
-          <Button bg="rgba(0, 45, 124, 0.6)" textcolor="var(--light)" >
+          <Button bg="rgba(0, 45, 124, 0.6)" textcolor="var(--light)" onClick={handleInvoiceModal}>
             Edit
           </Button>
           <Button bg="#ec5555" textcolor="var(--white)" onClick={handleDeleteModal}>
@@ -40,7 +45,7 @@ function Invoice() {
         <Info>
           <div className="invoice-id">
             <h3>#inv01</h3>
-            <p>Summary</p>
+            <p>Project description</p>
           </div>
           <address className="user-address">why you want</address>
           <div className="invoice-date grid">
@@ -88,6 +93,7 @@ function Invoice() {
           <h2>&#8358; 556.00</h2>
         </AmountDue>
       </Content>
+      {showInvoiceModal && <Modal isForm handleClose={handleInvoiceModal} />}
       {showDeleteModal && <Modal isDelete handleClose={handleDeleteModal} />}
       {showStatusModal && <Modal isStatus handleClose={handleStatusModal} />}
     </Layout>
