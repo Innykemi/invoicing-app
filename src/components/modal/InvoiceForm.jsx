@@ -8,10 +8,11 @@ import DeleteIcon from "../../assets/images/DeleteIcon.jsx";
 
 const InvoiceForm = ({ handleClose }) => {
   const [selectedValues, setSelectedValues] = useState({
+    user_name: "",
     user_street_address: "",
-    city: "",
-    zipcode: "",
-    country: "",
+    user_city: "",
+    user_zipcode: "",
+    user_country: "",
     client_name: "",
     client_email: "",
     client_street_address: "",
@@ -35,6 +36,14 @@ const InvoiceForm = ({ handleClose }) => {
         <FieldsGroup>
           <legend>Bill from</legend>
           <TextField
+            id="user_name"
+            name="user_name"
+            label="Name"
+            type="text"
+            defaultValue={selectedValues.user_name}
+            onChange={(e) => handleOnChange("user_name", e)}
+          />
+          <TextField
             id="user_street_address"
             name="user_street_address"
             label="Street Address"
@@ -44,28 +53,28 @@ const InvoiceForm = ({ handleClose }) => {
           />
           <InputGroup>
             <CustomTextField
-              id="city"
-              name="city"
+              id="user_city"
+              name="user_city"
               label="City"
               type="text"
-              defaultValue={selectedValues.city}
-              onChange={(e) => handleOnChange("city", e)}
+              defaultValue={selectedValues.user_city}
+              onChange={(e) => handleOnChange("user_city", e)}
             />
             <CustomTextField
-              id="zipcode"
-              name="zipcode"
+              id="user_zipcode"
+              name="user_zipcode"
               label="Zip code"
               type="text"
-              defaultValue={selectedValues.zipcode}
-              onChange={(e) => handleOnChange("zipcode", e)}
+              defaultValue={selectedValues.user_zipcode}
+              onChange={(e) => handleOnChange("user_zipcode", e)}
             />
             <CustomTextField
-              id="country"
-              name="country"
+              id="user_country"
+              name="user_country"
               label="Country"
               type="text"
-              defaultValue={selectedValues.country}
-              onChange={(e) => handleOnChange("country", e)}
+              defaultValue={selectedValues.user_country}
+              onChange={(e) => handleOnChange("user_country", e)}
             />
           </InputGroup>
         </FieldsGroup>
