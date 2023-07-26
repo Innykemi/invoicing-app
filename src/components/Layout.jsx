@@ -8,7 +8,9 @@ function Layout({ children, className }) {
     <Wrapper>
       <Sidebar />
       <Container className={className}>
-        {children}
+        <Inner>
+          {children}
+        </Inner>
       </Container>
     </Wrapper>
   );
@@ -33,10 +35,14 @@ const Container = styled("div")`
   margin-bottom: 2.5rem;
   padding: 0 1.5rem;
   ${minMobile} {
-    max-width: 780px;
-    width: 100%;
-    margin: 0 auto 2.5rem auto;
-    width: 100%;
+    margin-bottom: 2.5rem;
+    margin-left: auto;
+    width: calc(100vw - 6.375rem);
     padding: 0;
   }
+`;
+const Inner = styled("div")`
+  max-width: 780px;
+  width: 100%;
+  margin: 0 auto;
 `;
