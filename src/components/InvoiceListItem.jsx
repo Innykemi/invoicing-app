@@ -8,7 +8,7 @@ import StatusIndicator from "./InvoiceStatusIndicator.jsx";
 function InvoiceListItem({ index, invoiceId, dueDate, clientName, totalPrice, invoiceStatus }) {
   return (
     <Wrapper delay={index * 0.2}>
-      <Link to={`/invoice`} className="container">
+      <Link to={`/invoice/${invoiceId}`} className="container">
         <p className="uid"><span>#</span>{invoiceId}</p>
         <p className="payment-due">Due {dueDate}</p>
         <p className="client-name">{clientName}</p>
