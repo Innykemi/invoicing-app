@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { styled } from "goober";
-import { createWrapperAndAppendToBody } from "../../utils/helpers.jsx";
+import { createWrapperAndAppendToBody } from "../../utils/helpers.js";
 import ModalDelete from "./ModalDelete.jsx";
 import ModalStatus from "./ModalStatus.jsx";
 import InvoiceForm from "./InvoiceForm.jsx";

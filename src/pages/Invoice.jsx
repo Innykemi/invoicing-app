@@ -2,13 +2,13 @@ import React, { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { keyframes, styled } from "goober";
 import { minMobile, mobileSmall } from "../../globalStyle.jsx";
-import { getInvoicesFromLocalStorage } from '../actions/InvoiceActions.jsx';
+import { getInvoicesFromLocalStorage } from '../actions/InvoiceActions.js';
 import Button from "../components/form/Button.jsx";
 import ArrowLeft from "../assets/images/ArrowLeft.jsx";
 import StatusIndicator from "../components/InvoiceStatusIndicator.jsx";
 import Layout from "../components/Layout.jsx";
 import Modal from "../components/modal/index.jsx";
-import { useWindowResize } from "../utils/helpers.jsx";
+import { useWindowResize } from "../utils/helpers.js";
 
 function Invoice() {
   const { invoiceId } = useParams();

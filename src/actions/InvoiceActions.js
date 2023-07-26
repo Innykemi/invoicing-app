@@ -1,5 +1,5 @@
-import dispatcher from '../dispatcher.jsx';
-import InvoiceConstants from "../constants/InvoiceConstants.jsx";
+import dispatcher from '../dispatcher.js';
+import InvoiceConstants from "../constants/InvoiceConstants.js";
 import data from "../data.json";
 
 export function createInvoice(invoiceData) {

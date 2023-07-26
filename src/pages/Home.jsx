@@ -6,7 +6,7 @@ import PlusIcon from "../assets/images/PlusIcon.jsx";
 import InvoiceListItem from "../components/InvoiceListItem.jsx";
 import Layout from "../components/Layout.jsx";
 import Modal from "../components/modal/index.jsx";
-import { initializeInvoicesInLocalStorage, getInvoicesFromLocalStorage } from '../actions/InvoiceActions.jsx';
+import { initializeInvoicesInLocalStorage, getInvoicesFromLocalStorage } from '../actions/InvoiceActions.js';
 
 function Home() {
   const [showInvoiceModal, setShowInvoiceModal] = useState(false);
