@@ -4,6 +4,7 @@ const InvoiceConstants = {
   SEND_INVOICE: "SEND_INVOICE",
   UPDATE_INVOICE: "UPDATE_INVOICE",
   DELETE_INVOICE: "DELETE_INVOICE",
+  MARK_AS_PAID: "MARK_AS_PAID",
 };
 
 export default InvoiceConstants;

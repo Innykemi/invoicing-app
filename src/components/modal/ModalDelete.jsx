@@ -1,13 +1,19 @@
 import React from "react";
 import { styled } from 'goober';
 import Button from '../form/Button.jsx';
+import { deleteInvoice } from "../../actions/InvoiceActions.js"; 
 
-const ModalDelete = ({ handleClose }) => {
+const ModalDelete = ({ handleClose, id }) => {
+  const handleDelete = () => {
+    deleteInvoice(id);
+    handleClose();
+  };
+
   return (
     <Wrapper className="pop-out">
       <h2>Confirm Deletion</h2>
       <p>
-        Are you sure you want to delete invoice # This action cannot be undone.
+        Are you sure you want to delete invoice #INV{id} This action cannot be undone.
       </p>
       <ButtonGroup>
         <Button
@@ -20,7 +26,7 @@ const ModalDelete = ({ handleClose }) => {
         <Button
           bg="#ec5555"
           textcolor="var(--white)"
-          onClick={handleClose}
+          onClick={handleDelete}
         >
           Delete
         </Button>

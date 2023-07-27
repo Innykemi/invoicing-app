@@ -1,8 +1,13 @@
 import React from "react";
 import { styled } from 'goober';
 import Button from '../form/Button.jsx';
+import { markAsPaid } from "../../actions/InvoiceActions.js";
 
-const ModalStatus = ({ handleClose }) => {
+const ModalStatus = ({ handleClose, id }) => {
+  const handleMarkAsPaid = () => {
+    markAsPaid(id);
+    handleClose();
+  };
   return (
     <Wrapper className="pop-out">
       <h2>Confirm Status</h2>
@@ -21,7 +26,7 @@ const ModalStatus = ({ handleClose }) => {
         <Button
           bg="var(--green)"
           textcolor="var(--primary)"
-          onClick={handleClose}
+          onClick={handleMarkAsPaid}
           width="auto"
         >
           Mark as Paid

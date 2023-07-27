@@ -13,6 +13,7 @@
     "@babel/core": "^7.22.9",
     "@babel/preset-env": "^7.22.9",
     "@babel/preset-react": "^7.22.5",
+    "@emailjs/browser": "^3.11.0",
     "babel-loader": "^9.1.3",
     "flux": "^4.0.4",
     "goober": "^2.1.13",

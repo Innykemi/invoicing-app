@@ -46,7 +46,7 @@ const Wrapper = styled("li")`
       'paymentdue status'
       'totalprice status';
     justify-content: space-between;
-    padding: 2.5rem;
+    padding: 1rem;
     border: 1px solid transparent;
     border-radius: var(--br);
     .uid {
@@ -60,15 +60,17 @@ const Wrapper = styled("li")`
     }
     .payment-due {
       grid-area: paymentdue;
+      font-size: 0.875rem;
     }
     .client-name {
       grid-area: clientname;
       justify-self: end;
+      font-size: 0.875rem;
     }
     .total-price {
       font-weight: 700;
       font-family: var(--semi-bold);
-      font-size: 1.25rem;
+      font-size: 1rem;
       line-height: 1.5;
       grid-area: totalprice;
     }
@@ -89,14 +91,17 @@ const Wrapper = styled("li")`
       }
       .payment-due {
         grid-area: unset;
+        font-size: 1rem;
       }
       .client-name {
         grid-area: unset;
         justify-self: start;
+        font-size: 1rem;
       }
       .total-price {
         grid-area: unset;
         justify-self: end;
+        font-size: 1.25rem;
       }
       .status {
         grid-area: unset;

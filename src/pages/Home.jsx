@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useReducer } from "react";
 import { Link } from "react-router-dom";
 import { styled } from "goober";
 import { minMobile } from "../../globalStyle.jsx";
@@ -6,19 +6,25 @@ import PlusIcon from "../assets/images/PlusIcon.jsx";
 import InvoiceListItem from "../components/InvoiceListItem.jsx";
 import Layout from "../components/Layout.jsx";
 import Modal from "../components/modal/index.jsx";
-import { initializeInvoicesInLocalStorage, getInvoicesFromLocalStorage } from '../actions/InvoiceActions.js';
+import InvoiceStore from "../store/store.js";
 
 function Home() {
   const [showInvoiceModal, setShowInvoiceModal] = useState(false);
-  const [invoices, setInvoices] = useState([]);
+  const [invoices, setInvoices] = useState(InvoiceStore.getAllInvoices());
 
   useEffect(() => {
-    initializeInvoicesInLocalStorage();
+    // Add a listener to the InvoiceStore to update the component when the store changes
+    InvoiceStore.addListener(handleInvoiceStoreChange);
 
-    const invoicesFromLocalStorage = getInvoicesFromLocalStorage();
-    setInvoices(invoicesFromLocalStorage);
-
+    return () => {
+      // To:Do: Cancel the subscriptions and clean up; currently getting an error
+      // InvoiceStore.removeListener(handleInvoiceStoreChange);
+    };
   }, []);
+
+  const handleInvoiceStoreChange = () => {
+    setInvoices(InvoiceStore.getAllInvoices());
+  };
 
   const handleInvoiceModal = () => {
     setShowInvoiceModal(!showInvoiceModal);
@@ -46,7 +52,7 @@ function Home() {
           />
         ))}
       </Invoices>
-      {showInvoiceModal && <Modal isForm handleClose={handleInvoiceModal} />}
+      {showInvoiceModal && <Modal isForm handleClose={handleInvoiceModal} invoices={invoices} />}
     </Layout>
   );
 }
@@ -59,13 +65,16 @@ const TitleHeader = styled("div")`
   align-items: center;
   margin: 2rem 0;
   gap: 1.125rem;
+  h2 {
+    font-size: 1.25rem;
+    color: var(--white);
+  }
   ${minMobile} {
     margin: 4.5rem 0 4rem 0;
     gap: 2.5rem;
-  }
-  h2 {
-    font-size: 2rem;
-    color: var(--white);
+    h2 {
+      font-size: 2rem;
+    }
   }
 `;
 const Options = styled("div")`

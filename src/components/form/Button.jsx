@@ -27,7 +27,7 @@ const buttonStyles = `
   }
 `;
 
-const Button = ({ leftIcon, textcolor, bg, children, className="", onClick, type="button", disabled }) => {
+const Button = ({ leftIcon, textcolor, bg, form, name, children, className="", onClick, type="button", disabled }) => {
   const customStyles = `
     --button-bg-color: ${bg};
     --button-text-color: ${textcolor};
@@ -48,6 +48,8 @@ const Button = ({ leftIcon, textcolor, bg, children, className="", onClick, type
       className={`${className} ${disabled ? "disabled" : ""}`}
       onClick={handleClick} 
       type={type}
+      form={form}
+      name={name}
     >
       {leftIcon && leftIcon}
       {children}

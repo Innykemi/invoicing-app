@@ -1,7 +1,7 @@
 [
     {
       "id": 1,
-      "invoiceId": "INV01",
+      "invoiceId": "INV1",
       "createdAt": "2023-07-26T00:00:00.522-01:00",
       "userName": "Tami Maddox",
       "userStreetAddress": "Cass Place",
@@ -32,12 +32,13 @@
           "totalPrice": "148.80"
         }
       ],
-      "totalAmount": 294.09,
-      "status": "Draft"
+      "totalAmount": 256.75,
+      "status": "Draft",
+      "emailSent": false
     },
     {
       "id": 2,
-      "invoiceId": "INV02",
+      "invoiceId": "INV2",
       "createdAt": "2023-07-26T00:00:00.522-01:00",
       "userName": "Maldonado Crane",
       "userStreetAddress": "Keen Court",
@@ -68,12 +69,13 @@
           "totalPrice": "138.81"
         }
       ],
-      "totalAmount": 444.66,
-      "status": "Paid"
+      "totalAmount": 311.76,
+      "status": "Paid",
+      "emailSent": true
     },
     {
       "id": 3,
-      "invoiceId": "INV03",
+      "invoiceId": "INV3",
       "createdAt": "2023-07-26T00:00:00.522-01:00",
       "userName": "Tracey Blackburn",
       "userStreetAddress": "Bedford Place",
@@ -104,12 +106,13 @@
           "totalPrice": "118.86"
         }
       ],
-      "totalAmount": 777.75,
-      "status": "Paid"
+      "totalAmount": 216.06,
+      "status": "Paid",
+      "emailSent": true
     },
     {
       "id": 4,
-      "invoiceId": "INV04",
+      "invoiceId": "INV4",
       "createdAt": "2023-07-26T00:00:00.522-01:00",
       "userName": "Carolyn Orr",
       "userStreetAddress": "Agate Court",
@@ -140,12 +143,13 @@
           "totalPrice": "156.82"
         }
       ],
-      "totalAmount": 243.41,
-      "status": "Draft"
+      "totalAmount": 524.12,
+      "status": "Draft",
+      "emailSent": false
     },
     {
       "id": 5,
-      "invoiceId": "INV05",
+      "invoiceId": "INV5",
       "createdAt": "2023-07-26T00:00:00.522-01:00",
       "userName": "Guy Benson",
       "userStreetAddress": "Bartlett Place",
@@ -176,7 +180,8 @@
           "totalPrice": "220.60"
         }
       ],
-      "totalAmount": 627.97,
-      "status": "Pending"
+      "totalAmount": 677.80,
+      "status": "Pending",
+      "emailSent": false
     }
   ]

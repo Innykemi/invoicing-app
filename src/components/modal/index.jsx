@@ -7,7 +7,16 @@ import ModalStatus from "./ModalStatus.jsx";
 import InvoiceForm from "./InvoiceForm.jsx";
 
 
-const Modal = ({ wrapperId = "modal-portal-root", isForm, isDelete, isStatus, handleClose }, ref) => {
+const Modal = ({
+    wrapperId = "modal-portal-root",
+    isForm,
+    isDelete,
+    isStatus,
+    handleClose,
+    selectedInvoice,
+    invoices,
+    isEdit,
+  }, ref) => {
   let element = document.getElementById(wrapperId);
 
   if (!element) {
@@ -28,9 +37,15 @@ const Modal = ({ wrapperId = "modal-portal-root", isForm, isDelete, isStatus, ha
       role="dialog"
       ref={ref}
     >
-      {isForm && <InvoiceForm handleClose={handleClose} />}
-      {isDelete && <ModalDelete handleClose={handleClose} />}
-      {isStatus && <ModalStatus handleClose={handleClose} />}
+      {isForm &&
+        <InvoiceForm
+          handleClose={handleClose}
+          selectedInvoice={selectedInvoice}
+          invoices={invoices}
+        />
+      }
+      {isDelete && <ModalDelete handleClose={handleClose} id={selectedInvoice.id} isEdit={isEdit} />}
+      {isStatus && <ModalStatus handleClose={handleClose} id={selectedInvoice.id} />}
     </StyledModal>
   );
 

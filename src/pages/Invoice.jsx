@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import React, { useState, useEffect, useMemo } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { keyframes, styled } from "goober";
 import { minMobile, mobileSmall } from "../../globalStyle.jsx";
-import { getInvoicesFromLocalStorage } from '../actions/InvoiceActions.js';
+import { getInvoicesFromLocalStorage, updateInvoice } from '../actions/InvoiceActions.js';
 import Button from "../components/form/Button.jsx";
 import ArrowLeft from "../assets/images/ArrowLeft.jsx";
 import StatusIndicator from "../components/InvoiceStatusIndicator.jsx";
@@ -13,12 +13,24 @@ import { useWindowResize } from "../utils/helpers.js";
 function Invoice() {
   const { invoiceId } = useParams();
   const invoices = getInvoicesFromLocalStorage();
-  const selectedInvoice = invoices.find((invoice) => invoice.invoiceId === invoiceId);
   const windowWidth = useWindowResize();
+  const navigate = useNavigate();
   
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showStatusModal, setShowStatusModal] = useState(false);
   const [showInvoiceModal, setShowInvoiceModal] = useState(false);
+
+  const selectedInvoice = useMemo(() => {
+    const invoice = invoices.find((invoice) => invoice.invoiceId === invoiceId);
+    return invoice;
+  }, [invoices, invoiceId]);
+
+  useEffect(() => {
+    // Perform navigation if the selectedInvoice is not found
+    if (!selectedInvoice) {
+      navigate("/");
+    }
+  }, [selectedInvoice, navigate]);
 
   const handleDeleteModal = () => {
     setShowDeleteModal(!showDeleteModal);
@@ -30,7 +42,7 @@ function Invoice() {
     setShowInvoiceModal(!showInvoiceModal);
   }
 
-  const totalAmount = selectedInvoice?.items.reduce((total, item) => {
+  const totalAmount = selectedInvoice?.items?.reduce((total, item) => {
     return total + parseFloat(item.totalPrice);
   }, 0).toFixed(2);
 
@@ -39,46 +51,56 @@ function Invoice() {
       <BackLink to="/" className="fade-in"><ArrowLeft />Go back</BackLink>
       <Header>
         <p className="status-label">Status</p>
-        <StatusIndicator status={selectedInvoice.status} />
+        <StatusIndicator status={selectedInvoice?.status} />
         {windowWidth >= 768 && (
           <InvoiceActions>
-            <Button bg="rgba(0, 45, 124, 0.6)" textcolor="var(--light)" onClick={handleInvoiceModal}>
-              Edit
-            </Button>
+            {selectedInvoice?.status !== "Paid" && (
+              <Button bg="rgba(0, 45, 124, 0.6)" textcolor="var(--light)" onClick={handleInvoiceModal}>
+                Edit
+              </Button>
+            )}
             <Button bg="#ec5555" textcolor="var(--white)" onClick={handleDeleteModal}>
               Delete
             </Button>
-            <Button bg="var(--green)" textcolor="var(--primary)" onClick={handleStatusModal}>
-              Mark as Paid
-            </Button>
+            {(selectedInvoice?.status !== "Paid" && selectedInvoice?.status !== "Draft")  && (
+              <Button bg="var(--green)" textcolor="var(--primary)" onClick={handleStatusModal}>
+                Mark as Paid
+              </Button>
+            )}
           </InvoiceActions>
         )}
       </Header>
       <Content>
-        <Info>
-          <div className="invoice-id">
-            <h3>#{selectedInvoice.invoiceId}</h3>
-            <p>{selectedInvoice.projectDesc}</p>
-          </div>
-          <address className="user-address">{selectedInvoice.userStreetAddress}</address>
-          <div className="invoice-date grid">
-            <h4 className="label">Invoice Date</h4>
-            <p className="desc">{selectedInvoice.invoiceDate}</p>
-          </div>
-          <div className="client-info grid">
-            <h4 className="label">Bill to</h4>
-            <p className="desc">{selectedInvoice.clientName}</p>
-            <address>{selectedInvoice.clientStreetAddress}</address>
-          </div>
-          <div className="client-email grid">
-            <h4 className="label">Sent to</h4>
-            <p className="desc">{selectedInvoice.clientEmail}</p>
-          </div>
-          <div className="payment-due grid">
-            <h4 className="label">Payment Due</h4>
-            <p className="desc">{selectedInvoice.invoiceDueDate}</p>
-          </div>
-        </Info>
+        {selectedInvoice && (
+           <Info>
+            <div className="invoice-id">
+              <h3>#{selectedInvoice?.invoiceId}</h3>
+              <p>{selectedInvoice?.projectDesc}</p>
+            </div>
+            <div className="invoice-date grid">
+              <h4 className="label">Invoice Date</h4>
+              <p className="desc">{selectedInvoice?.invoiceDate}</p>
+            </div>
+            <div className="user-info grid">
+              <h4 className="label">Bill from</h4>
+              <p className="desc">{selectedInvoice?.userName}</p>
+              <address>{selectedInvoice?.userStreetAddress}</address>
+            </div>
+            <div className="payment-due grid">
+              <h4 className="label">Payment Due</h4>
+              <p className="desc">{selectedInvoice?.invoiceDueDate}</p>
+            </div>
+            <div className="client-info grid">
+              <h4 className="label">Bill to</h4>
+              <p className="desc">{selectedInvoice?.clientName}</p>
+              <address>{selectedInvoice?.clientStreetAddress}</address>
+            </div>
+            <div className="client-email grid">
+              <h4 className="label">Sent to</h4>
+              <p className="desc">{selectedInvoice?.clientEmail}</p>
+            </div>
+          </Info>
+        )}
         <ServicePrices>
           <div className="items-wrapper">
             {windowWidth >= 768 && (
@@ -89,19 +111,19 @@ function Invoice() {
                 <p>Total</p>
               </div>
             )}
-            {selectedInvoice?.items.map((item, index) => (
+            {selectedInvoice?.items?.map((item, index) => (
               <div className="item-details" key={index}>
                 {windowWidth >= 768 ? (
                   <>
                     <p className="item-name">{item.itemName}</p>
                     <p className="item-qty">{item.quantity}</p>
-                    <p className="item-price">&#8358; {item.price}</p>
+                    <p className="item-price">{item.price && `\u20A6 ${item.price}`}</p>
                     <p className="item-total-price">&#8358; {item.totalPrice}</p>
                   </>
                 ) : 
                   <>
                     <p className="item-name">{item.itemName}</p>
-                    <p className="item-qty">{item.quantity} x &#8358; {item.price}</p>
+                    <p className="item-qty">{(item.quantity && item.price) && `${item.quantity} x \u20A6 ${item.price}`}</p>
                     <p className="item-total-price">&#8358; {item.totalPrice}</p>
                   </>
                 }
@@ -113,23 +135,34 @@ function Invoice() {
           <p>Amount Due</p>
           <h2>&#8358; {totalAmount}</h2>
         </AmountDue>
+        <p className="additional-info">{selectedInvoice?.additionalNote}</p>
       </Content>
       {windowWidth <= 767 && (
         <InvoiceActions>
-          <Button bg="rgba(0, 45, 124, 0.6)" textcolor="var(--light)" onClick={handleInvoiceModal}>
-            Edit
-          </Button>
+          {selectedInvoice?.status !== "Paid" && (
+            <Button bg="rgba(0, 45, 124, 0.6)" textcolor="var(--light)" onClick={handleInvoiceModal}>
+              Edit
+            </Button>
+          )}
           <Button bg="#ec5555" textcolor="var(--white)" onClick={handleDeleteModal}>
             Delete
           </Button>
-          <Button bg="var(--green)" textcolor="var(--primary)" onClick={handleStatusModal}>
-            Mark as Paid
-          </Button>
+          {(selectedInvoice?.status !== "Paid" && selectedInvoice?.status !== "Draft")  && (
+            <Button bg="var(--green)" textcolor="var(--primary)" onClick={handleStatusModal}>
+              Mark as Paid
+            </Button>
+          )}
         </InvoiceActions>
       )}
-      {showInvoiceModal && <Modal isForm handleClose={handleInvoiceModal} />}
-      {showDeleteModal && <Modal isDelete handleClose={handleDeleteModal} />}
-      {showStatusModal && <Modal isStatus handleClose={handleStatusModal} />}
+      {showInvoiceModal &&
+        <Modal isForm handleClose={handleInvoiceModal} selectedInvoice={selectedInvoice} isEdit="true" />
+      }
+      {showDeleteModal &&
+        <Modal isDelete handleClose={handleDeleteModal} selectedInvoice={selectedInvoice} />
+      }
+      {showStatusModal &&
+        <Modal isStatus handleClose={handleStatusModal} selectedInvoice={selectedInvoice} />
+      }
     </Layout>
   );
 }
@@ -190,6 +223,11 @@ const Content = styled("article")`
   box-shadow: 0 10px 10px -10px rgba(71, 84, 158, 0.1);
   padding: 3rem;
   animation: ${fadeInAnimation2} 1s ease-in-out;
+  .additional-info {
+    margin: 1rem 0;
+    color: var(--light);
+    font-size: 0.75rem;
+  }
   ${mobileSmall} {
     padding: 1.5rem;
   }
@@ -198,8 +236,8 @@ const Info = styled("div")`
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-areas:
-    'key .'
-    'senderAddress .'
+    'key userInfo'
+    'senderAddress userInfo'
     'createdDate clientInfo'
     'paymentDue clientInfo'
     'email email';
@@ -246,11 +284,11 @@ const Info = styled("div")`
       color: var(--light);
     }
   }
-  .user-address {
-    grid-area: senderAddress;
-  }
   .invoice-date {
     grid-area: createdDate;
+  }
+  .user-info {
+    grid-area: userInfo;
   }
   .client-info {
     grid-area: clientInfo;
@@ -265,11 +303,11 @@ const Info = styled("div")`
   ${minMobile} {
     grid-template-columns: 1fr 0.8fr 1fr;
     grid-template-areas:
-      'key . senderAddress'
-      'createdDate clientInfo email'
+      'key . userInfo'
+      'createdDate . userInfo'
       'paymentDue clientInfo email';
     gap: 1.25rem;
-    .user-address {
+    .user-info {
       justify-self: end;
       text-align: right;
     }

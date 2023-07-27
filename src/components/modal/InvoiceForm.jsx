@@ -1,203 +1,288 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { styled } from 'goober';
 import { minMobile, mobile } from "../../../globalStyle.jsx";
 import Button from '../form/Button.jsx';
 import TextField from "../form/TextField.jsx";
 import TextFieldArea from "../form/TextFieldArea.jsx";
 import DeleteIcon from "../../assets/images/DeleteIcon.jsx";
+import { createInvoice, updateInvoice } from "../../actions/InvoiceActions.js";
+import emailKey from "../../constants/emailKey.js";
+import emailjs from '@emailjs/browser';
 
-const InvoiceForm = ({ handleClose }) => {
+const InvoiceForm = ({ isEdit, handleClose, selectedInvoice }) => {
   const [selectedValues, setSelectedValues] = useState({
-    user_name: "",
-    user_street_address: "",
-    user_city: "",
-    user_zipcode: "",
-    user_country: "",
-    client_name: "",
-    client_email: "",
-    client_street_address: "",
-    client_city: "",
-    client_zipcode: "",
-    client_country: "",
-    invoice_date: "",
-    invoice_due_date: "",
-    project_desc: "",
-    additional_note: "",
+    invoiceId: selectedInvoice ? selectedInvoice.invoiceId : "",
+    userName: selectedInvoice ? selectedInvoice.userName : "",
+    userStreetAddress: selectedInvoice ? selectedInvoice.userStreetAddress : "",
+    userCity: selectedInvoice ? selectedInvoice.userCity : "",
+    userZipcode: selectedInvoice ? selectedInvoice.userZipcode : "",
+    userCountry: selectedInvoice ? selectedInvoice.userCountry : "",
+    clientName: selectedInvoice ? selectedInvoice.clientName : "",
+    clientEmail: selectedInvoice ? selectedInvoice.clientEmail : "",
+    clientStreetAddress: selectedInvoice ? selectedInvoice.clientStreetAddress : "",
+    clientCity: selectedInvoice ? selectedInvoice.clientCity : "",
+    clientZipcode: selectedInvoice ? selectedInvoice.clientZipcode : "",
+    clientCountry: selectedInvoice ? selectedInvoice.clientCountry : "",
+    invoiceDate: selectedInvoice ? selectedInvoice.invoiceDate : "",
+    invoiceDueDate: selectedInvoice ? selectedInvoice.invoiceDueDate : "",
+    projectDesc: selectedInvoice ? selectedInvoice.projectDesc : "",
+    additionalNote: selectedInvoice ? selectedInvoice.additionalNote : "",
   });
+
+  const [itemList, setItemList] = useState([
+    { itemName: "", quantity: "", price: "", totalPrice: "0" }
+  ]);
+
+  useEffect(() => {
+    if (selectedInvoice) {
+      const items = selectedInvoice?.items;
+      setItemList(items);
+    }
+    
+  }, [selectedInvoice]);
 
   const handleOnChange = (name, e) => {
     setSelectedValues({ ...selectedValues, [name]: e.target.value });
   };
 
+  const handleAddItem = () => {
+    setItemList([...itemList, { itemName: "", quantity: "", price: "", totalPrice: "0" }]);
+  };
+  
+  const handleDeleteItem = (index) => {
+    const updatedItemList = [...itemList];
+    updatedItemList.splice(index, 1);
+    setItemList(updatedItemList);
+    
+  };
+
+  const handleItemChange = (index, field, value) => {
+    const updatedItemList = [...itemList];
+    updatedItemList[index][field] = value;
+  
+    const totalPrice = parseFloat(updatedItemList[index].quantity) * parseFloat(updatedItemList[index].price);
+    updatedItemList[index].totalPrice = isNaN(totalPrice) ? "0" : totalPrice.toFixed(2);
+  
+    setItemList(updatedItemList);
+  };  
+
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    // Access the button element that triggered the onSubmit event
+    const clickedButton = e.nativeEvent.submitter;
+    const buttonName = clickedButton.getAttribute("name");
+
+    const updatedValues = {
+      ...selectedValues,
+      status: buttonName === "saveAsDraft" ? "Draft" : "Pending",
+      items: itemList,
+      totalAmount: itemList.reduce((total, item) => total + parseFloat(item.totalPrice || 0), 0).toFixed(2),
+    };
+
+    const templateParams = {
+      client_name: selectedValues.clientName,
+      sender: selectedValues.userName,
+      to_email: selectedValues.clientEmail,
+      message: "This is to inform you that an invoice has been generated, thank you",
+    };
+   
+    emailjs.send(emailKey.SERVICE_ID, emailKey.TEMPLATE_ID, templateParams, emailKey.PUBLIC_KEY)
+      .then(function(response) {
+        console.log('SUCCESS!', response.status, response.text);
+      }, function(error) {
+        console.log('FAILED...', error);
+      });
+    if (selectedInvoice) {
+      updateInvoice(selectedInvoice.id, updatedValues);
+    } else {
+      createInvoice(updatedValues);
+    }
+    handleClose();
+  };
+
   return (
     <Wrapper className="pop-out">
-      <h2>inv01</h2>
-      <Form id="invoice">
+      <h2>
+        {!selectedInvoice ? "New Invoice" : (
+          `Edit #${selectedInvoice.invoiceId}`
+        )}
+      </h2>
+      <Form id="invoiceForm" name="invoiceForm" onSubmit={handleFormSubmit}>
         <FieldsGroup>
           <legend>Bill from</legend>
           <TextField
-            id="user_name"
-            name="user_name"
+            id="userName"
+            name="userName"
             label="Name"
             type="text"
-            defaultValue={selectedValues.user_name}
-            onChange={(e) => handleOnChange("user_name", e)}
+            defaultValue={selectedInvoice?.userName}
+            onChange={(e) => handleOnChange("userName", e)}
           />
           <TextField
-            id="user_street_address"
-            name="user_street_address"
+            id="userStreetAddress"
+            name="userStreetAddress"
             label="Street Address"
             type="text"
-            defaultValue={selectedValues.user_street_address}
-            onChange={(e) => handleOnChange("user_street_address", e)}
+            defaultValue={selectedInvoice?.userStreetAddress}
+            onChange={(e) => handleOnChange("userStreetAddress", e)}
           />
           <InputGroup>
             <CustomTextField
-              id="user_city"
-              name="user_city"
+              id="userCity"
+              name="userCity"
               label="City"
               type="text"
-              defaultValue={selectedValues.user_city}
-              onChange={(e) => handleOnChange("user_city", e)}
+              defaultValue={selectedInvoice?.userCity}
+              onChange={(e) => handleOnChange("userCity", e)}
             />
             <CustomTextField
-              id="user_zipcode"
-              name="user_zipcode"
+              id="userZipcode"
+              name="userZipcode"
               label="Zip code"
               type="text"
-              defaultValue={selectedValues.user_zipcode}
-              onChange={(e) => handleOnChange("user_zipcode", e)}
+              defaultValue={selectedInvoice?.userZipcode}
+              onChange={(e) => handleOnChange("userZipcode", e)}
             />
             <CustomTextField
-              id="user_country"
-              name="user_country"
+              id="userCountry"
+              name="userCountry"
               label="Country"
               type="text"
-              defaultValue={selectedValues.user_country}
-              onChange={(e) => handleOnChange("user_country", e)}
+              defaultValue={selectedInvoice?.userCountry}
+              onChange={(e) => handleOnChange("userCountry", e)}
             />
           </InputGroup>
         </FieldsGroup>
         <FieldsGroup>
           <legend>Bill to</legend>
           <TextField
-            id="client_name"
-            name="client_name"
+            id="clientName"
+            name="clientName"
             label="Client's Name"
             type="text"
-            defaultValue={selectedValues.client_name}
-            onChange={(e) => handleOnChange("client_name", e)}
+            defaultValue={selectedInvoice?.clientName}
+            onChange={(e) => handleOnChange("clientName", e)}
           />
           <TextField
-            id="client_email"
-            name="client_email"
+            id="clientEmail"
+            name="clientEmail"
             label="Client's Email"
             type="email"
-            defaultValue={selectedValues.client_email}
-            onChange={(e) => handleOnChange("client_email", e)}
+            defaultValue={selectedInvoice?.clientEmail}
+            onChange={(e) => handleOnChange("clientEmail", e)}
             required
           />
           <TextField
-            id="client_street_address"
-            name="client_street_address"
+            id="clientStreetAddress"
+            name="clientStreetAddress"
             label="Street Address"
             type="text"
-            defaultValue={selectedValues.client_street_address}
-            onChange={(e) => handleOnChange("client_street_address", e)}
+            defaultValue={selectedInvoice?.clientStreetAddress}
+            onChange={(e) => handleOnChange("clientStreetAddress", e)}
           />
           <InputGroup>
             <CustomTextField
-              id="client_city"
-              name="client_city"
+              id="clientCity"
+              name="clientCity"
               label="City"
               type="text"
-              defaultValue={selectedValues.client_city}
-              onChange={(e) => handleOnChange("client_city", e)}
+              defaultValue={selectedInvoice?.clientCity}
+              onChange={(e) => handleOnChange("clientCity", e)}
             />
             <CustomTextField
-              id="client_zipcode"
-              name="client_zipcode"
+              id="clientZipcode"
+              name="clientZipcode"
               label="Zip code"
               type="text"
-              defaultValue={selectedValues.client_zipcode}
-              onChange={(e) => handleOnChange("client_zipcode", e)}
+              defaultValue={selectedInvoice?.clientZipcode}
+              onChange={(e) => handleOnChange("clientZipcode", e)}
             />
             <CustomTextField
-              id="client_country"
-              name="client_country"
+              id="clientCountry"
+              name="clientCountry"
               label="Country"
               type="text"
-              defaultValue={selectedValues.client_country}
-              onChange={(e) => handleOnChange("client_country", e)}
+              defaultValue={selectedInvoice?.clientCountry}
+              onChange={(e) => handleOnChange("clientCountry", e)}
             />
           </InputGroup>
         </FieldsGroup>
         <FieldsGroup>
           <InputGroup>
             <CustomTextField
-              id="invoice_date"
-              name="invoice_date"
+              id="invoiceDate"
+              name="invoiceDate"
               label="Invoice Date"
               type="date"
-              defaultValue={selectedValues.invoice_date}
-              onChange={(e) => handleOnChange("invoice_date", e)}
+              defaultValue={selectedInvoice?.invoiceDate}
+              onChange={(e) => handleOnChange("invoiceDate", e)}
             />
             <CustomTextField
-              id="invoice_due_date"
-              name="invoice_due_date"
+              id="invoiceDueDate"
+              name="invoiceDueDate"
               label="Invoice Due Date"
               type="date"
-              defaultValue={selectedValues.invoice_due_date}
-              onChange={(e) => handleOnChange("invoice_due_date", e)}
+              defaultValue={selectedInvoice?.invoiceDueDate}
+              onChange={(e) => handleOnChange("invoiceDueDate", e)}
             />
             
           </InputGroup>
           <TextField
-            id="project_desc"
-            name="project_desc"
+            id="projectDesc"
+            name="projectDesc"
             label="Project Description"
             type="text"
             placeholder="e.g Landing page redesign"
-            defaultValue={selectedValues.project_desc}
-            onChange={(e) => handleOnChange("project_desc", e)}
+            defaultValue={selectedInvoice?.projectDesc}
+            onChange={(e) => handleOnChange("projectDesc", e)}
           />
         </FieldsGroup>
         <FieldsGroup>
           <legend className="item-list">Item List</legend>
-          <ItemList className="header">
-            <span className="item-name">Item name</span>
-            <span className="qty">Qty</span>
-            <span className="price">Price</span>
-            <span className="total-price">Total</span>
-            <span className="delete"></span>
-          </ItemList>
-          <ItemList>
-            <ItemTextField
-              id="item_name_"
-              label="Item name"
-              type="text"
-              className="item-name"
-              hidelabelondesktop
-            />
-            <ItemTextField
-              id="qty_"
-              label="Qty"
-              type="text"
-              className="qty"
-              hidelabelondesktop
-            />
-            <ItemTextField
-              id="price_"
-              label="Price"
-              type="text"
-              className="price"
-              hidelabelondesktop
-            />
-            <p className="total-price">150</p>
-            <DeleteIcon />
-          </ItemList>
+          {itemList?.map((item, index) => (
+            <ItemList key={index}>
+              <ItemTextField
+                label="Item name"
+                type="text"
+                className="item-name"
+                value={item.itemName}
+                onChange={(e) => handleItemChange(index, "itemName", e.target.value)}
+              />
+              <ItemTextField
+                label="Qty"
+                type="text"
+                className="qty"
+                value={item.quantity}
+                onChange={(e) => handleItemChange(index, "quantity", e.target.value)}
+              />
+              <ItemTextField
+                label="Price"
+                type="text"
+                className="price"
+                value={item.price}
+                onChange={(e) => handleItemChange(index, "price", e.target.value)}
+              />
+              <p className="total-price">&#8358; {item.totalPrice}</p>
+              <span className="delete-icon" onClick={() => handleDeleteItem(index)}><DeleteIcon /></span>
+              
+            </ItemList>
+          ))}
+          <Button
+            bg="rgba(0, 45, 124, 0.6)"
+            textcolor="var(--light)"
+            type="button" 
+            onClick={handleAddItem}
+          >
+            Add Item
+          </Button>
         </FieldsGroup>
-        <TextFieldArea label="Additional Note" id="additional_note" name="additional_note" />
+        <TextFieldArea 
+          label="Additional Note" 
+          defaultValue={selectedInvoice?.additionalNote}
+          onChange={(e) => handleOnChange("additionalNote", e)} 
+          id="additionalNote" 
+          ame="additionalNote" 
+        />
       </Form>
       <ButtonGroup>
         <Button
@@ -211,7 +296,9 @@ const InvoiceForm = ({ handleClose }) => {
           <Button
             bg="rgba(0, 45, 124, 0.5)"
             textcolor="var(--light)"
-            onClick={handleClose}
+            form="invoiceForm"
+            type="submit"
+            name="saveAsDraft"
           >
             Save as Draft
           </Button>
@@ -219,7 +306,8 @@ const InvoiceForm = ({ handleClose }) => {
             bg="var(--green)"
             textcolor="var(--primary)"
             type="submit"
-            form="invoice"
+            form="invoiceForm"
+            name="saveAndSend"
           >
             Save & Send
           </Button>
@@ -293,6 +381,9 @@ const FieldsGroup = styled("fieldset")`
   display: flex;
   flex-flow: column;
   gap: 1.5rem;
+  .delete-icon {
+    cursor: pointer;
+  }
 `;
 const InputGroup = styled("div")`
   display: flex;
@@ -306,7 +397,7 @@ const CustomTextField = styled(TextField)`
 `;
 const ItemList = styled("div")`
   display: grid;
-  grid-template-columns: minmax(64px, 1fr) minmax(100px, 1fr) minmax(65px, 94px) auto;
+  grid-template-columns: minmax(44px, 1fr) minmax(70px, 1fr) minmax(65px, 120px) auto;
   grid-template-rows: auto auto;
   grid-template-areas:
     'name name name name'
@@ -339,11 +430,6 @@ const ItemList = styled("div")`
     grid-template-columns: 214px 51px 100px 1fr;
     grid-template-areas: 'name qty price total delete';
     grid-template-rows: auto;
-  }
-  ${mobile} {
-    &.header {
-      display: none;
-    }
   }
 `;
 const ItemTextField = styled(TextField)`

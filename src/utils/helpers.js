@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { getInvoicesFromLocalStorage } from "../actions/InvoiceActions";
 
 export const createWrapperAndAppendToBody = (wrapperId) => {
   const wrapperElement = document.createElement("div");
@@ -24,3 +25,10 @@ export const useWindowResize = () => {
 
   return windowWidth;
 };
+
+export function generateNextInvoiceId() {
+  const invoices = getInvoicesFromLocalStorage();
+  const lastInvoice = invoices[invoices.length - 1];
+  const nextInvoiceId = lastInvoice.id + 1;
+  return nextInvoiceId;
+}

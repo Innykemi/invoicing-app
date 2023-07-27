@@ -35,9 +35,12 @@ const Container = styled("header")`
 `;
 
 const LogoContainer = styled("div")`
-  padding: 1.9375rem;
+  padding: 1rem;
   img {
     width: 2.5rem;
     height: 2.5rem;
+  }
+  ${minMobile} {
+    padding: 1.9375rem;
   }
 `;

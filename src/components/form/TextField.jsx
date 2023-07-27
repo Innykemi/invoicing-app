@@ -10,14 +10,11 @@ export const Wrapper = styled("div")`
   label {
     color: var(--light);
     font-size: 0.75rem;
-    @media screen and (min-width: 768px) {
-      display: ${props => (props.hidelabelondesktop ? "none" : "block")};
-    }
   }
   input {
     min-width: 10.9375rem;
     width: 100%;
-    padding: 1rem 0.75rem 1rem 1.25rem;
+    padding: 1rem 0.75rem 1rem 1rem;
     border-radius: 4px;
     background: #0a253c;
     color: var(--light);
@@ -65,15 +62,15 @@ export const Wrapper = styled("div")`
   }
 `;
 
-const TextField = React.forwardRef(({ label, disabled, width, className="", hidelabelondesktop, ...props }, ref) => {
+const TextField = React.forwardRef(({ label, disabled, width, className="", ...props }, ref) => {
   return (
-    <Wrapper className={className} hidelabelondesktop={hidelabelondesktop}>
-      {label && 
+    <Wrapper className={className}>
+      {label &&
         <div className="label">
-          <label className="type-body3" htmlFor={props.id || props.name}>{label}</label>
+          <label htmlFor={props.id || props.name}>{label}</label>
         </div>
       }
-      <input className="text-input" {...props} ref={ref} disabled={disabled}/>
+      <input className="text-input" {...props} ref={ref} disabled={disabled} />
       {props.type === "date" && (
         <Calendar className="input-icon icon" />
       )}
